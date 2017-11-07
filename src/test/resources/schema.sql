@@ -149,17 +149,17 @@ CREATE TABLE `worksLiked` (
   CONSTRAINT `WORKLIKED_FK_WORKS` FOREIGN KEY (`worksId`) REFERENCES `works` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `worksLiked`;
-CREATE TABLE `worksLiked` (
-  `worksId` char(32) NOT NULL,
-  `userId` char(32) NOT NULL,
-  `liked` smallint(6) NOT NULL,
-  `createDate` datetime NOT NULL,
-  `lastUpdateDate` datetime DEFAULT NULL,
-  PRIMARY KEY (`worksId`,`userId`),
-  KEY `WORKLIKED_FK_USER` (`userId`),
-  CONSTRAINT `WORKLIKED_FK_USER` FOREIGN KEY (`userId`) REFERENCES `user` (`id`),
-  CONSTRAINT `WORKLIKED_FK_WORKS` FOREIGN KEY (`worksId`) REFERENCES `works` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- DROP TABLE IF EXISTS `worksLiked`;
+-- CREATE TABLE `worksLiked` (
+--   `worksId` char(32) NOT NULL,
+--   `userId` char(32) NOT NULL,
+--   `liked` smallint(6) NOT NULL,
+--   `createDate` datetime NOT NULL,
+--   `lastUpdateDate` datetime DEFAULT NULL,
+--   PRIMARY KEY (`worksId`,`userId`),
+--   KEY `WORKLIKED_FK_USER` (`userId`),
+--   CONSTRAINT `WORKLIKED_FK_USER` FOREIGN KEY (`userId`) REFERENCES `user` (`id`),
+--   CONSTRAINT `WORKLIKED_FK_WORKS` FOREIGN KEY (`worksId`) REFERENCES `works` (`id`)
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 SET FOREIGN_KEY_CHECKS = 1;
