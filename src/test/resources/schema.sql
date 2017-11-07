@@ -34,6 +34,8 @@ CREATE TABLE `works` (
   `userId` char(32) NOT NULL,
   `createDate` datetime NOT NULL,
   `lastUpdateDate` datetime DEFAULT NULL,
+  `likedCount` int(11) NOT NULL,
+  `normalUrl` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `userId` (`userId`),
   CONSTRAINT `WORKS_FK_USER` FOREIGN KEY (`userId`) REFERENCES `user` (`id`)
@@ -61,9 +63,40 @@ CREATE TABLE `topic` (
   `createUser` char(32) NOT NULL,
   `createDate` datetime NOT NULL,
   `lastUpdateDate` datetime DEFAULT NULL,
+  `attentionCount` int(11) NOT NULL,
+  `recentUploadDate` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `createUser` (`createUser`),
   CONSTRAINT `TOPIC_FK_USER` FOREIGN KEY (`createUser`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Table structure for `userTopic`
+-- ----------------------------
+DROP TABLE IF EXISTS `userTopic`;
+CREATE TABLE `userTopic` (
+  `userId` char(32) NOT NULL,
+  `topicId` char(32) NOT NULL,
+  `createDate` datetime DEFAULT NULL,
+  PRIMARY KEY (`userId`,`topicId`),
+  KEY `topicId` (`topicId`),
+  CONSTRAINT `usertopic_fk_topic` FOREIGN KEY (`topicId`) REFERENCES `topic` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `usertopic_fk_user` FOREIGN KEY (`userId`) REFERENCES `user` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Table structure for `inviteCode`
+-- ----------------------------
+DROP TABLE IF EXISTS `inviteCode`;
+CREATE TABLE `inviteCode` (
+  `id` char(32) NOT NULL,
+  `topicId` char(32) NOT NULL,
+  `code` char(6) NOT NULL,
+  `createDate` datetime NOT NULL,
+  `expireDate` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `topicIdIndex` (`topicId`),
+  CONSTRAINT `invitecode_fk_topic` FOREIGN KEY (`topicId`) REFERENCES `topic` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -103,6 +136,19 @@ CREATE TABLE `userFollow` (
 -- ----------------------------
 --  Table structure for `worksLiked`
 -- ----------------------------
+DROP TABLE IF EXISTS `worksLiked`;
+CREATE TABLE `worksLiked` (
+  `worksId` char(32) NOT NULL,
+  `userId` char(32) NOT NULL,
+  `liked` smallint(6) NOT NULL,
+  `createDate` datetime NOT NULL,
+  `lastUpdateDate` datetime DEFAULT NULL,
+  PRIMARY KEY (`worksId`,`userId`),
+  KEY `WORKLIKED_FK_USER` (`userId`),
+  CONSTRAINT `WORKLIKED_FK_USER` FOREIGN KEY (`userId`) REFERENCES `user` (`id`),
+  CONSTRAINT `WORKLIKED_FK_WORKS` FOREIGN KEY (`worksId`) REFERENCES `works` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 DROP TABLE IF EXISTS `worksLiked`;
 CREATE TABLE `worksLiked` (
   `worksId` char(32) NOT NULL,
